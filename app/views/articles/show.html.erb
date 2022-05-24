@@ -14,7 +14,7 @@ form: {
  %></li>
 </ul>
 <h2>Like</h2>
-<%= link_to "Like", articles_path(@article),method: :post %>
+<%= link_to "Like", articles_like_path(@article),method: :post %>
 Like:<%= @article.like %>
 
 <h2>Comments</h2>
