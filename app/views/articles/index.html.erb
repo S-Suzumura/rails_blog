@@ -11,6 +11,10 @@ Our blog has <%= Article.public_count %> articles and counting!
     <% end %>
   <% end %>
 </ul>
-
-<%= link_to "New Article", new_article_path %>
-<p><%= link_to "Create Account", users_new_path %></p>
+<% if account_signed_in? %>
+  <p><%= link_to "New Article", new_article_path %></p>
+  <p><%= button_to "Sign out", destroy_account_session_path,method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %></p>
+<% else %>
+  <p><%= link_to "Sign in", new_account_session_path %></p>
+  <p><%= link_to "Create Account", new_account_registration_path %></p>
+<% end %>

@@ -4,14 +4,7 @@
 
 <ul>
   <li><%= link_to "Edit", edit_article_path(@article) %></li>
-  <li><%= button_to "Destroy", article_path(@article),
-method: :delete, 
-form: {
-  data: {
-        turbo_confirm: "Are you sure?"
-              }
-}
- %></li>
+  <li><%= button_to "Destroy", article_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %></li>
 </ul>
 <h2>Like</h2>
 <%= link_to "Like", articles_like_path(@article),method: :post %>
