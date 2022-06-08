@@ -7,8 +7,16 @@
   <li><%= button_to "Destroy", article_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %></li>
 </ul>
 <h2>Like</h2>
-<%= link_to "Like", articles_like_path(@article),method: :post %>
-Like:<%= @article.like %>
+<% if account_signed_in? %>
+  <%if Like.find_by(account_id:current_account.id,article_id:@article.id)%>
+    <%= button_to "Unlike", articles_unlike_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %>
+  <% else %>
+    <%= button_to "Like", articles_like_path(@article),method: :post %>
+  <% end %>
+<% end %>
+
+<% likes = Like.where(article_id:@article.id) %>
+Like:<%= likes.count %>
 
 <h2>Comments</h2>
 <%= render @article.comments %>

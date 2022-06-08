@@ -6,9 +6,6 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
-    if @article.like.nil? then
-      @article.like = 0
-    end
   end
 
   def new
@@ -17,7 +14,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-
+    @article.UserID = current_account.id
     if @article.save
       redirect_to @article
     else
@@ -47,12 +44,16 @@ class ArticlesController < ApplicationController
   end
 
   def like
-    @article = Article.find(params[:id])
-    if @article.like.nil? then
-      @article.like = 0
-    end
-    @article.like = @article.like+1
-    @article.save
+    @article = Article.find(params[:format])
+    @like = Like.new(account_id:current_account.id,article_id:params[:format])
+    @like.save
+    redirect_to article_path(@article)
+  end
+
+  def unlike
+    @article = Article.find(params[:format])
+    @like = Like.find_by(account_id:current_account.id,article_id:params[:format])
+    @like.destroy
     redirect_to article_path(@article)
   end
   
