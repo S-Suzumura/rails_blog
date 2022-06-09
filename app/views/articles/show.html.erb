@@ -2,24 +2,34 @@
 
 <p><%= @article.body %></p>
 
-<ul>
-  <li><%= link_to "Edit", edit_article_path(@article) %></li>
-  <li><%= button_to "Destroy", article_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %></li>
-</ul>
-<h2>Like</h2>
 <% if account_signed_in? %>
-  <%if Like.find_by(account_id:current_account.id,article_id:@article.id)%>
-    <%= button_to "Unlike", articles_unlike_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %>
-  <% else %>
-    <%= button_to "Like", articles_like_path(@article),method: :post %>
+  <% if @article.UserID == current_account.id%>
+    <ul>
+      <li><%= link_to "Edit", edit_article_path(@article) %></li>
+      <li><%= button_to "Destroy", article_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %></li>
+    </ul>
   <% end %>
 <% end %>
 
+<h2>Like</h2>
+<% if account_signed_in? %>
+  <% if @article.UserID != current_account.id%>
+    <%if Like.find_by(account_id:current_account.id,article_id:@article.id)%>
+      <%= button_to "Unlike", articles_unlike_path(@article),method: :delete,form: {data: {turbo_confirm: "Are you sure?"}} %>
+    <% else %>
+      <%= button_to "Like", articles_like_path(@article),method: :post %>
+    <% end %>
+  <% end %>
+<% end %>
 <% likes = Like.where(article_id:@article.id) %>
 Like:<%= likes.count %>
 
 <h2>Comments</h2>
 <%= render @article.comments %>
 
+<% if account_signed_in? %>
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
+<% else %>
+<p>コメントはログイン時のみ可能</p>
+<% end %>
