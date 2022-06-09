@@ -10,7 +10,7 @@
   </p>
   
   <% if account_signed_in? %>
-    <% if comment.UserID == current_account.id%>
+    <% if comment.UserID == current_account.id || @article.UserID == current_account.id%>
       <p>
         <%= button_to "Destroy Comment", [comment.article, comment],method: :delete,form: {data: {turbo_confirm: "Are you sure?"}}%>
       </p>
