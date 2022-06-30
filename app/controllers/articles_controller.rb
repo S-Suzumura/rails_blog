@@ -2,6 +2,8 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = Article.all
+    @data = {name:"pikachu", type:"electric",group:"pokemon",title:"titledayo"}
+    render json: @data
   end
 
   def show
